@@ -1,0 +1,13 @@
+# *
+User-agent: *
+Allow: /
+
+# Googlebot-Image
+User-agent: Googlebot-Image
+Allow: /
+
+# Host
+Host: https://next-pizza-gilt.vercel.app
+
+# Sitemaps
+Sitemap: https://next-pizza-gilt.vercel.app/sitemap.xml

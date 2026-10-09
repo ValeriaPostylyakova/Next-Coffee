@@ -1,0 +1,521 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name",
+        "updateAt"
+      ]
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "category": {
+          "$ref": "#/definitions/Category"
+        },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ingredient"
+          }
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "variations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductVariation"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "imageUrl",
+        "updateAt",
+        "categoryId"
+      ]
+    },
+    "ProductVariation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "size": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "pizzaType": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "product": {
+          "$ref": "#/definitions/Product"
+        },
+        "cartItem": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartItem"
+          }
+        }
+      },
+      "required": [
+        "price",
+        "productId"
+      ]
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "role": {
+          "type": "string",
+          "default": "USER",
+          "enum": [
+            "USER",
+            "ADMIN"
+          ]
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "providerId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "cart": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Cart"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        },
+        "verificationCode": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/VerificationCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verify": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "fullName",
+        "email",
+        "password",
+        "updateAt"
+      ]
+    },
+    "Ingredient": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "cartItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartItem"
+          }
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "name",
+        "price",
+        "imageUrl",
+        "updateAt"
+      ]
+    },
+    "Cart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "user": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/User"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "totalAmount": {
+          "type": "integer",
+          "default": 0
+        },
+        "token": {
+          "type": "string"
+        },
+        "cartItems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartItem"
+          }
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "token",
+        "updateAt"
+      ]
+    },
+    "CartItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "cart": {
+          "$ref": "#/definitions/Cart"
+        },
+        "productVariation": {
+          "$ref": "#/definitions/ProductVariation"
+        },
+        "quanty": {
+          "type": "integer",
+          "default": 1
+        },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ingredient"
+          }
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "cartId",
+        "productItemId",
+        "updateAt"
+      ]
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "user": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/User"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "token": {
+          "type": "string"
+        },
+        "totalAmount": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string",
+          "default": "PENGIND",
+          "enum": [
+            "PENGIND",
+            "SUCCEEDED",
+            "CANCELLED"
+          ]
+        },
+        "paymentId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "items": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "object",
+            "array",
+            "null"
+          ]
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "adress": {
+          "type": "string"
+        },
+        "comment": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updateAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "token",
+        "totalAmount",
+        "items",
+        "fullName",
+        "email",
+        "phone",
+        "adress",
+        "updateAt"
+      ]
+    },
+    "Story": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StoryItem"
+          }
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "imageUrl"
+      ]
+    },
+    "StoryItem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "sourceUrl": {
+          "type": "string"
+        },
+        "story": {
+          "$ref": "#/definitions/Story"
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "sourceUrl",
+        "storyId"
+      ]
+    },
+    "VerificationCode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "code": {
+          "type": "string"
+        },
+        "createAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "userId",
+        "code"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "category": {
+      "$ref": "#/definitions/Category"
+    },
+    "product": {
+      "$ref": "#/definitions/Product"
+    },
+    "productVariation": {
+      "$ref": "#/definitions/ProductVariation"
+    },
+    "user": {
+      "$ref": "#/definitions/User"
+    },
+    "ingredient": {
+      "$ref": "#/definitions/Ingredient"
+    },
+    "cart": {
+      "$ref": "#/definitions/Cart"
+    },
+    "cartItem": {
+      "$ref": "#/definitions/CartItem"
+    },
+    "order": {
+      "$ref": "#/definitions/Order"
+    },
+    "story": {
+      "$ref": "#/definitions/Story"
+    },
+    "storyItem": {
+      "$ref": "#/definitions/StoryItem"
+    },
+    "verificationCode": {
+      "$ref": "#/definitions/VerificationCode"
+    }
+  }
+}
